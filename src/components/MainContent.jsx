@@ -86,7 +86,7 @@ const [SelectedCity, setSelectedCity] = useState(
 const [Date, SetDate] = useState("");
 const [Heur, setHeur] = useState("");
 const [nextPrayer, setnextPrayer] = useState(0);
-const [timerDown, setTimerDown] = useState("");
+const [timerDown, setTimerDown] = useState('');
 //api
 
 const extractData = async () => {
@@ -97,42 +97,48 @@ const extractData = async () => {
   SetDate(date.hijri.weekday.ar +" "+ date.hijri.day+" "+ date.hijri.month.ar +" "+ date.hijri.year);
 }
 //useEffect:
-  useEffect(() =>{
-    extractData() 
-    
-  },[SelectedCity])
+useEffect(() =>{
+  extractData() 
+  
+},[SelectedCity])
 
-  useEffect(()=>{
-    setHeur(moment().format('MM-D-YYYY | HH:mm'))
-    let Interval = setInterval(() => {
-      SetupCountDownTimer()
-      }, 1000);
-      return () =>{
-        clearInterval(Interval)
-      }
-  },[Timings])
+useEffect(()=>{
+  setHeur(moment().format('MM-D-YYYY | HH:mm'))
+  let Interval = setInterval(() => {
+    SetupCountDownTimer()
+    }, 1000);
+
+    return () =>{
+      clearInterval(Interval)
+      
+    }
+},[Timings,timerDown])
+
+
+ 
 
 //functions:
+
 const SetupCountDownTimer = ()=>{
   const momentNow = moment();
- 
-if(momentNow.isAfter(moment(Timings['Fajr'],"HH:mm")) && momentNow.isBefore(moment(Timings['Dhuhr'],"HH:mm"))){
-  setnextPrayer(1);
-}else if(momentNow.isAfter(moment(Timings['Dhuhr'],"HH:mm")) && momentNow.isBefore(moment(Timings['Asr'],"HH:mm"))){
-  setnextPrayer(2);
-}else if(momentNow.isAfter(moment(Timings['Asr'],"HH:mm")) && momentNow.isBefore(moment(Timings['Maghrib'],"HH:mm"))){
-  setnextPrayer(3);
-}else if(momentNow.isAfter(moment(Timings['Maghrib'],"HH:mm")) && momentNow.isBefore(moment(Timings['Isha'],"HH:mm"))){
-  setnextPrayer(4);
-}else {
-  setnextPrayer(0);
-}
+  if(momentNow.isAfter(moment(Timings['Fajr'],"HH:mm")) && momentNow.isBefore(moment(Timings['Dhuhr'],"HH:mm"))){
+    setnextPrayer(1);
+  }else if(momentNow.isAfter(moment(Timings['Dhuhr'],"HH:mm")) && momentNow.isBefore(moment(Timings['Asr'],"HH:mm"))){
+    setnextPrayer(2);
+  }else if(momentNow.isAfter(moment(Timings['Asr'],"HH:mm")) && momentNow.isBefore(moment(Timings['Maghrib'],"HH:mm"))){
+    setnextPrayer(3);
+  }else if(momentNow.isAfter(moment(Timings['Maghrib'],"HH:mm")) && momentNow.isBefore(moment(Timings['Isha'],"HH:mm"))){
+    setnextPrayer(4);
+  }else{
+    setnextPrayer(0);
+  }
+  
 //countDown timer:
-const nextPrayerObjet = PrayersArray[nextPrayer].key
-const nextPrayerTime = Timings[nextPrayerObjet]
+
+const nextPrayerTime = Timings[PrayersArray[nextPrayer].key]
 const momentDiff = moment(nextPrayerTime, "HH:mm").diff(momentNow)
 const momentDuration = moment.duration(momentDiff)
-const timedown = momentDuration.hours()+':'+momentDuration.minutes()+':'+momentDuration.seconds();
+const timedown = `${momentDuration.hours()}:${momentDuration.minutes()}:${momentDuration.seconds()}`;
 setTimerDown(timedown);
 }
 
@@ -157,7 +163,7 @@ const handleChange = (event) => {
             </Grid>
             <Grid xs={6} >
               <div>
-                <h2> المتبقي حتى صلاة {PrayersArray[nextPrayer].displayName} </h2>
+                <h2> الوقت المتبقي حتى صلاة {PrayersArray[nextPrayer].displayName} </h2>
                 <h1>{timerDown}</h1>
               </div>
             </Grid>
