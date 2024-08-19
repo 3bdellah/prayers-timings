@@ -14,28 +14,8 @@ import { useState, useEffect } from "react";
 import moment from "moment";
 
 
-
 export default function MainContent() {
-
-  
-
-//states:
-const [Timings, setTimings] = useState(
-  {
-          "Fajr": "",
-          "Dhuhr": "",
-          "Asr": "",
-          "Maghrib": "",
-          "Isha": "",
-  }
-);
-
-const [SelectedCity, setSelectedCity] = useState(
-  {
-    DisplayName:"أكــادير",
-    ApiName:"Agadir"
-  });
-
+//array data:
 const AvilaibleCitys = [
   {
     DisplayName:"أكــادير",
@@ -85,6 +65,24 @@ const PrayersArray = [
     displayName:"العشاء" 
   },
 ]
+  
+
+//states:
+const [Timings, setTimings] = useState(
+  {
+          "Fajr": "",
+          "Dhuhr": "",
+          "Asr": "",
+          "Maghrib": "",
+          "Isha": "",
+  }
+);
+
+const [SelectedCity, setSelectedCity] = useState(
+  {
+    DisplayName:"أكــادير",
+    ApiName:"Agadir"
+  });
 const [Date, SetDate] = useState("");
 const [Heur, setHeur] = useState("");
 const [nextPrayer, setnextPrayer] = useState(0);
@@ -94,11 +92,11 @@ const [timerDown, setTimerDown] = useState("");
 const extractData = async () => {
   const Responce = await axios.get(`https://api.aladhan.com/v1/timingsByCity?city=${SelectedCity.ApiName}&country=Morocco&method=8`);
   setTimings(Responce.data.data.timings);
- const date = Responce.data.data.date;
- SetDate(date.hijri.weekday.ar +" "+ date.hijri.day+" "+ date.hijri.month.ar +" "+ date.hijri.year);
- 
+  
+  const date = Responce.data.data.date;
+  SetDate(date.hijri.weekday.ar +" "+ date.hijri.day+" "+ date.hijri.month.ar +" "+ date.hijri.year);
 }
-
+//useEffect:
   useEffect(() =>{
     extractData() 
     
@@ -113,6 +111,7 @@ const extractData = async () => {
         clearInterval(Interval)
       }
   },[Timings])
+
 //functions:
 const SetupCountDownTimer = ()=>{
   const momentNow = moment();
@@ -131,7 +130,6 @@ if(momentNow.isAfter(moment(Timings['Fajr'],"HH:mm")) && momentNow.isBefore(mome
 //countDown timer:
 const nextPrayerObjet = PrayersArray[nextPrayer].key
 const nextPrayerTime = Timings[nextPrayerObjet]
-
 const momentDiff = moment(nextPrayerTime, "HH:mm").diff(momentNow)
 const momentDuration = moment.duration(momentDiff)
 const timedown = momentDuration.hours()+':'+momentDuration.minutes()+':'+momentDuration.seconds();
