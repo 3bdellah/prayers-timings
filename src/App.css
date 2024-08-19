@@ -1,0 +1,26 @@
+
+#root {
+direction: rtl;
+text-align: center;
+
+}
+.main {
+margin-top: 10px;
+display: flex;
+width: 100vw;
+justify-content: center;
+}
+
+.prayers-cards{
+margin-top: 0px;
+padding: auto;
+display: flex;
+justify-content: center;
+align-content: center;
+}
+.MuiOutlinedInput-notchedOutline{
+  border-color: antiquewhite !important;
+}
+.MuiSvgIcon-root{
+  color: antiquewhite !important;
+}
