@@ -12,6 +12,14 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useState, useEffect } from "react";
 import moment from "moment";
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+
+const Item = styled(Paper)(() => ({
+  backgroundColor: '#00000000',
+
+}));
+
 
 
 export default function MainContent() {
@@ -135,10 +143,15 @@ const SetupCountDownTimer = ()=>{
   
 //countDown timer:
 
+function getTimeInterval(startTime, endTime){
+  return moment(moment(startTime,"hh:mm:ss").diff(moment(endTime,"hh:mm"))).format("hh:mm:ss"); 
+}
+
 const nextPrayerTime = Timings[PrayersArray[nextPrayer].key]
-const momentDiff = moment(nextPrayerTime, "HH:mm").diff(momentNow)
-const momentDuration = moment.duration(momentDiff)
-const timedown = `${momentDuration.hours()}:${momentDuration.minutes()}:${momentDuration.seconds()}`;
+// const momentDiff = moment(nextPrayerTime, "HH:mm").diff(momentNow)
+// const momentDuration = moment.duration(momentDiff)
+// const timedown = `${momentDuration.hours()}:${momentDuration.minutes()}:${momentDuration.seconds()}`;
+const timedown = getTimeInterval(nextPrayerTime,momentNow)
 setTimerDown(timedown);
 }
 
@@ -153,8 +166,8 @@ const handleChange = (event) => {
 
   return (
   <>
-    {/*main drid*/}
-          <Grid container spacing={2}>
+    {/*main grid*/}
+          <Grid container direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <Grid xs={6} >
               <div>
                 <h2>  {Date}  | {Heur}</h2>
@@ -172,13 +185,13 @@ const handleChange = (event) => {
     <Divider style={{borderColor:"white",opacity:"0.3"}}/>
     {/*stack group*/}
     <div className='prayers-cards' > 
-    <Stack direction="row" spacing={1} > 
-        <PrayersCards img="/fajr-prayer.png" salat="الصبح" time={Timings.Fajr}/>
-        <PrayersCards img="/dhhr-prayer-mosque.png" salat="الظهر" time={Timings.Dhuhr}/>
-        <PrayersCards img="/asr-prayer-mosque.png" salat="العصر" time={Timings.Asr}/>
-        <PrayersCards img="/sunset-prayer-mosque.png" salat="المغرب" time={Timings.Maghrib}/> 
-        <PrayersCards img="/night-prayer-mosque.png" salat="العشاء" time={Timings.Isha}/>
-        </Stack>
+    <Stack direction={{ xs: 'column', sm: 'row' }}  spacing={1} > 
+        <Item><PrayersCards img="/fajr-prayer.png" salat="الصبح" time={Timings.Fajr}/></Item>
+        <Item><PrayersCards img="/dhhr-prayer-mosque.png" salat="الظهر" time={Timings.Dhuhr}/></Item>
+        <Item><PrayersCards img="/asr-prayer-mosque.png" salat="العصر" time={Timings.Asr}/></Item>
+        <Item><PrayersCards img="/sunset-prayer-mosque.png" salat="المغرب" time={Timings.Maghrib}/></Item>
+        <Item><PrayersCards img="/night-prayer-mosque.png" salat="العشاء" time={Timings.Isha}/></Item>
+    </Stack>
     </div>
     {/*select section*/ }
     <Stack direction="row" justifyContent={"center"} marginTop={"10px"}>
