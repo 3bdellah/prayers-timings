@@ -168,14 +168,14 @@ const handleChange = (event) => {
   <>
     {/*main grid*/}
           <Grid container direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <Grid xs={6} >
-              <div>
+            <Grid xs={6}>
+              <div >
                 <h2>  {Date}  | {Heur}</h2>
                 <h1>مدينة {SelectedCity.DisplayName}</h1>
               </div>
             </Grid>
-            <Grid xs={6} >
-              <div>
+            <Grid xs={6}>
+              <div >
                 <h2> الوقت المتبقي حتى صلاة {PrayersArray[nextPrayer].displayName} </h2>
                 <h1>{timerDown}</h1>
               </div>
